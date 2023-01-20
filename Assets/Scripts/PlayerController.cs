@@ -12,8 +12,21 @@ public class PlayerController : MonoBehaviour
     public bool IsDead;
     private bool _isDead;
 
+
     private void Start()
     {
-        Vector3 myPosition = transform.position;
+        InputManager.Instance.SwipeRight += TurnRight;
     }
+    
+    private void OnDisable()
+    {
+        InputManager.Instance.SwipeRight -= TurnRight;
+    }
+
+    private void TurnRight()
+    {
+        print("right");
+    }
+    
+    
 }
