@@ -26,5 +26,30 @@ namespace TempleRun
 
         private List<GameObject> _currentTiles;
         private List<GameObject> _currentObstacles;
+
+        private void Start()
+        {
+            _currentTiles = new List<GameObject>();
+            _currentObstacles = new List<GameObject>();
+
+            Random.InitState(System.DateTime.Now.Millisecond);
+
+            for (int i = 0; i < _tileStartCount; i++)
+            {
+                //Spawn tiles and check if obstacle needed
+                SpawnTiles(_startingTile.GetComponent<Tile>(), false);
+            }
+
+            //SpawnTiles();
+        }
+
+        private void SpawnTiles(Tile tile, bool spawnObstacle)
+        {
+            _prevTile =  GameObject.Instantiate(tile.gameObject, _currentTileLocation, Quaternion.identity);
+            _currentTiles.Add(_prevTile);
+
+            //Get the previous tile location and multiply to the cureent direction
+            _currentTileLocation += Vector3.Scale(_prevTile.GetComponent<Renderer>().bounds.size, _currentTileDirection);
+        }
     }
 }
