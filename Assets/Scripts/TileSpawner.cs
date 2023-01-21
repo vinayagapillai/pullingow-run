@@ -61,6 +61,8 @@ namespace TempleRun
             //Calculate the currentTileLocation omly if we are going straight
             if(tile.type == TileType.STRAIGHT)
                 _currentTileLocation += Vector3.Scale(_prevTile.GetComponent<Renderer>().bounds.size, _currentTileDirection);
+            else
+                AddNewDirection(_currentTileDirection);
         }
 
         //Delete tiles and obstacles
