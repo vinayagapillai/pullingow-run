@@ -13,14 +13,22 @@ public class PlayerController : MonoBehaviour
     private bool _isDead;
 
 
-    private void Start()
+    private void OnEnable()
     {
-        InputManager.Instance.SwipeRight += TurnRight;
+        InputManager.SwipeRight += TurnRight;
+        InputManager.SwipeLeft += TurnLeft;
+        InputManager.SwipeUp += Jump;
+        InputManager.SwipeDown += Crouch;
+        InputManager.DoubleTap += UsePowerUp;
     }
     
     private void OnDisable()
     {
-        InputManager.Instance.SwipeRight -= TurnRight;
+        InputManager.SwipeRight -= TurnRight;
+        InputManager.SwipeLeft -= TurnLeft;
+        InputManager.SwipeUp -= Jump;
+        InputManager.SwipeDown -= Crouch;
+        InputManager.DoubleTap -= UsePowerUp;
     }
 
     private void TurnRight()
@@ -28,5 +36,25 @@ public class PlayerController : MonoBehaviour
         print("right");
     }
     
+    private void TurnLeft()
+    {
+        print("Left");
+    }
+    
+    private void Jump()
+    {
+        print("Jump");
+    }
+
+    private void Crouch()
+    {
+        print("Crouch");
+    }
+
+    private void UsePowerUp()
+    {
+        print("Power up");
+    }
+
     
 }
