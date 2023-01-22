@@ -7,7 +7,7 @@ using UnityEngine.Animations;
 
 namespace TempleRun.Player {
 
-    [RequireComponent(typeof(Rigidbody), typeof(Animator))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField]
@@ -26,6 +26,8 @@ namespace TempleRun.Player {
         private LayerMask turnLayer;
         [SerializeField]
         private AnimationClip slideAnimationClip;
+        [SerializeField]
+        private Animator _animator;
 
         private float _playerSpeed;
         private float _gravity;
@@ -33,7 +35,6 @@ namespace TempleRun.Player {
         private Vector3 _moveDirection = Vector3.forward;
 
         private Rigidbody _rb;
-        private Animator _animator;
 
         private int _slidingAnimationId;
 
@@ -59,7 +60,6 @@ namespace TempleRun.Player {
         private void Start()
         {
             _slidingAnimationId = Animator.StringToHash("Sliding");
-            _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody>();
             _playerSpeed = _intailPlayerSpeed;
             _gravity = _intialGravityValue;
@@ -79,10 +79,10 @@ namespace TempleRun.Player {
             transform.Translate(Vector3.forward * _playerSpeed * Time.deltaTime);
 
 
-            //if (IsGrounded() && _velocity.y < 0)
-            //{
-            //    _velocity.y = 0;
-            //}
+            if (IsGrounded() && _velocity.y < 0)
+            {
+                _velocity.y = 0;
+            }
 
             //velocity.y += _gravity * Time.deltaTime;
         }
@@ -203,9 +203,12 @@ namespace TempleRun.Player {
             _isSliding = true;
 
             //Play Sliding Animation
+            //Vector3 prevRotation = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+            //transform.rotation = Quaternion.Euler(-60f, 0, 0);
             _animator.Play(_slidingAnimationId);
             Debug.Log(slideAnimationClip.length);
             yield return new WaitForSeconds(slideAnimationClip.length);
+            //transform.rotation = Quaternion.Euler(Vector3.zero);
             _isSliding = false;
         }
 
@@ -213,8 +216,6 @@ namespace TempleRun.Player {
         {
             print("Power up");
         }
-
-
     }
 
 }
