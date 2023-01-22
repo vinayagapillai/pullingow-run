@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Animations;
 
 namespace TempleRun.Player {
 
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField]
@@ -23,6 +24,8 @@ namespace TempleRun.Player {
         private LayerMask groundLayer;        
         [SerializeField]
         private LayerMask turnLayer;
+        [SerializeField]
+        private AnimationClip slideAnimationClip;
 
         private float _playerSpeed;
         private float _gravity;
@@ -30,10 +33,15 @@ namespace TempleRun.Player {
         private Vector3 _moveDirection = Vector3.forward;
 
         private Rigidbody _rb;
+        private Animator _animator;
+
+        private int _slidingAnimationId;
+
 
         public bool IsDead;
         private bool _isDead;
         private bool _isGrounded;
+        private bool _isSliding = false;
 
         [SerializeField]
         private UnityEvent<Vector3> turnEvent;
@@ -50,29 +58,31 @@ namespace TempleRun.Player {
 
         private void Start()
         {
+            _slidingAnimationId = Animator.StringToHash("Sliding");
+            _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody>();
             _playerSpeed = _intailPlayerSpeed;
             _gravity = _intialGravityValue;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            float hInput = Input.GetAxis("Horizontal");
-            float vInput = Input.GetAxis("Vertical");
+            //float vInput = Input.GetAxis("Vertical");
 
-            Vector3 movHorizontal = transform.right * hInput;
-            Vector3 movVertical = transform.forward * vInput;
+
+            //Vector3 movVertical = transform.forward * vInput;
 
             //Final movement vector
-            _velocity = (movHorizontal + movVertical) * _playerSpeed;
+            //_velocity = movVertical * _playerSpeed;
+            //_rb.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
 
-            if (_velocity != Vector3.zero)
-                _rb.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
+            transform.Translate(Vector3.forward * _playerSpeed * Time.deltaTime);
 
-            if (IsGrounded() && _velocity.y < 0)
-            {
-                _velocity.y = 0;
-            }
+
+            //if (IsGrounded() && _velocity.y < 0)
+            //{
+            //    _velocity.y = 0;
+            //}
 
             //velocity.y += _gravity * Time.deltaTime;
         }
@@ -182,6 +192,21 @@ namespace TempleRun.Player {
         private void Crouch()
         {
             print("Crouch");
+            if(!_isSliding && IsGrounded())
+            {
+                StartCoroutine(Slide());
+            }
+        }
+
+        private IEnumerator Slide()
+        {
+            _isSliding = true;
+
+            //Play Sliding Animation
+            _animator.Play(_slidingAnimationId);
+            Debug.Log(slideAnimationClip.length);
+            yield return new WaitForSeconds(slideAnimationClip.length);
+            _isSliding = false;
         }
 
         private void UsePowerUp()
