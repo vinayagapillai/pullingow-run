@@ -630,10 +630,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 569544900, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+      propertyPath: turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 245704834}
     - target: {fileID: 3319437351052588201, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7195936624501765880, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3db7c2aa1d4292a4192c7d71cdc8903f, type: 2}
     - target: {fileID: 9027101170130290534, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: m_RootOrder
       value: 13

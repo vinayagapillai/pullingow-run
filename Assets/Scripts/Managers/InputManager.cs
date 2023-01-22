@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance;
+    
     private Vector3 _touchStartPos;
     private Vector3 _touchCurrentPos;
 
@@ -22,7 +24,15 @@ public class InputManager : MonoBehaviour
     public static event Action SwipeRight;
     public static event Action SwipeUp;
     public static event Action SwipeDown;
-    
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
