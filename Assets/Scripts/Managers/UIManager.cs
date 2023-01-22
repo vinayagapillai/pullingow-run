@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _gameplayUI;
     [SerializeField] private GameObject _gameoverUI;
 
-    [SerializeField] private TMP_Text _scoreUI;
+    //[SerializeField] private TMP_Text _scoreUI;
 
     private void Awake()
     {
@@ -33,11 +33,12 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameoverUI(bool active)
     {
-        _gameoverUI.SetActive(active);
+        Debug.Log(active);
+        _gameoverUI.SetActive(true);
     }
 
-    public void UpdateScoreUI(int value)
-    {
-        _scoreUI.SetText(value.ToString());
-    }
+    //public void UpdateScoreUI(int value)
+    //{
+    //    _scoreUI.SetText(value.ToString());
+    //}
 }

@@ -30,6 +30,8 @@ namespace TempleRun.Player {
         private AnimationClip _slideAnimationClip;
         [SerializeField]
         private Animator _animator;
+        [SerializeField]
+        private float _scoreMultiplier = 10f;
 
         private float _playerSpeed;
         private float _gravity;
@@ -39,6 +41,7 @@ namespace TempleRun.Player {
         private Rigidbody _rb;
 
         private int _slidingAnimationId;
+        private float _score = 0;
 
 
         public bool IsDead;
@@ -47,7 +50,11 @@ namespace TempleRun.Player {
         private bool _isSliding = false;
 
         [SerializeField]
-        private UnityEvent<Vector3> turnEvent;
+        private UnityEvent<Vector3> _turnEvent;
+        [SerializeField]
+        private UnityEvent<bool> _gameOverEvent;
+        [SerializeField]
+        private UnityEvent<int> _scoreUpdateEvent;
 
 
         private void OnEnable()
@@ -91,7 +98,10 @@ namespace TempleRun.Player {
                 _velocity.y = 0;
             }
 
-            //velocity.y += _gravity * Time.deltaTime;
+
+            //Score functionality
+            _score += _scoreMultiplier * Time.deltaTime;
+            _scoreUpdateEvent.Invoke((int)_score);
         }
 
         private void OnDisable()
@@ -147,16 +157,18 @@ namespace TempleRun.Player {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition = CheckTurn(1f);
             if (!turnPosition.HasValue)
+            {
                 //Game over is called is there is no turn when player tries to turn
                 GameOver();
                 return;
+            }
             print("right");
             //Assigning the local variable turnPosition to another variable since turnPosition can be null
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(90, Vector3.up) * _moveDirection;
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
-            turnEvent.Invoke(targetDirection);
+            _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
             transform.position = tempPlayerPosition;
             //Rotating the player 
@@ -171,16 +183,18 @@ namespace TempleRun.Player {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition =  CheckTurn(-1f);
             if (!turnPosition.HasValue)
+            {
                 //Game over is called is there is no turn when player tries to turn
                 GameOver();
                 return;
+            }
             print("Left");
             //Assigning the local variable turnPosition to another variable since turnPosition can be null
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(-90, Vector3.up) * _moveDirection;
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
-            turnEvent.Invoke(targetDirection);
+            _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
             transform.position = tempPlayerPosition;
             //Rotating the player 
@@ -234,6 +248,8 @@ namespace TempleRun.Player {
         private void GameOver()
         {
             Debug.Log("GameOver");
+            _gameOverEvent.Invoke(true);
+            gameObject.SetActive(false);
         }
     }
 }

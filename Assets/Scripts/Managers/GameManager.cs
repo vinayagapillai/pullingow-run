@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject _playerPrefab;
+
     public static GameManager Instance;
     
     public int Score { get; private set; }
@@ -20,10 +22,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int value)
-    {
-        Score += value;
-        UIManager.Instance.UpdateScoreUI(Score);
-    }
+    //public void UpdateScore(int value)
+    //{
+    //    Score += value;
+    //    UIManager.Instance.UpdateScoreUI(Score);
+    //}
     
+    //public void SpawnPlayer()
+    //{
+    //    GameObject spawnedPlayer = GameObject.Instantiate(_playerPrefab);
+    //    spawnedPlayer.transform.name = "Player";
+    //}
 }
