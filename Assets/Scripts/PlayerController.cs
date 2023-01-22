@@ -21,11 +21,13 @@ namespace TempleRun.Player {
         [SerializeField]
         private float _intialGravityValue = -9.81f;
         [SerializeField]
-        private LayerMask groundLayer;        
+        private LayerMask _groundLayer;        
         [SerializeField]
-        private LayerMask turnLayer;
+        private LayerMask _turnLayer;        
         [SerializeField]
-        private AnimationClip slideAnimationClip;
+        private LayerMask _obstacleLayer;
+        [SerializeField]
+        private AnimationClip _slideAnimationClip;
         [SerializeField]
         private Animator _animator;
 
@@ -67,6 +69,11 @@ namespace TempleRun.Player {
 
         private void Update()
         {
+            if (!IsGrounded(20f))
+            {
+                GameOver();
+                return;
+            }
             //float vInput = Input.GetAxis("Vertical");
 
 
@@ -107,11 +114,8 @@ namespace TempleRun.Player {
             raycastOriginFirst -= transform.forward * .2f;
             raycastOriginSecond += Vector3.forward * .2f;
 
-            Debug.DrawLine(raycastOriginFirst, Vector3.down, Color.green);
-            Debug.DrawLine(raycastOriginSecond, Vector3.down, Color.blue);
-
             //Check if palyer touching the ground
-            if ((Physics.Raycast(raycastOriginFirst, Vector3.down, out RaycastHit hit1, length, groundLayer)) || (Physics.Raycast(raycastOriginSecond, Vector3.down, out RaycastHit hit2, length, groundLayer)))
+            if ((Physics.Raycast(raycastOriginFirst, Vector3.down, out RaycastHit hit1, length, _groundLayer)) || (Physics.Raycast(raycastOriginSecond, Vector3.down, out RaycastHit hit2, length, _groundLayer)))
             {
                 return true;
             }
@@ -125,7 +129,7 @@ namespace TempleRun.Player {
         private Vector3? CheckTurn(float _turnValue)
         {
             //Returns a array of collider
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, .1f, turnLayer);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, .1f, _turnLayer);
             if (hitColliders.Length != 0)
             {
                 Tile tile = hitColliders[0].transform.parent.GetComponent<Tile>();
@@ -143,6 +147,8 @@ namespace TempleRun.Player {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition = CheckTurn(1f);
             if (!turnPosition.HasValue)
+                //Game over is called is there is no turn when player tries to turn
+                GameOver();
                 return;
             print("right");
             //Assigning the local variable turnPosition to another variable since turnPosition can be null
@@ -164,6 +170,10 @@ namespace TempleRun.Player {
         {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition =  CheckTurn(-1f);
+            if (!turnPosition.HasValue)
+                //Game over is called is there is no turn when player tries to turn
+                GameOver();
+                return;
             print("Left");
             //Assigning the local variable turnPosition to another variable since turnPosition can be null
             Vector3 origTurnPosition = turnPosition.Value;
@@ -203,12 +213,8 @@ namespace TempleRun.Player {
             _isSliding = true;
 
             //Play Sliding Animation
-            //Vector3 prevRotation = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
-            //transform.rotation = Quaternion.Euler(-60f, 0, 0);
             _animator.Play(_slidingAnimationId);
-            Debug.Log(slideAnimationClip.length);
-            yield return new WaitForSeconds(slideAnimationClip.length);
-            //transform.rotation = Quaternion.Euler(Vector3.zero);
+            yield return new WaitForSeconds(_slideAnimationClip.length);
             _isSliding = false;
         }
 
@@ -216,7 +222,19 @@ namespace TempleRun.Player {
         {
             print("Power up");
         }
-    }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (((1 << collision.gameObject.layer) & _obstacleLayer) != 0)
+            {
+                GameOver();
+            }
+        }
+
+        private void GameOver()
+        {
+            Debug.Log("GameOver");
+        }
+    }
 }
 

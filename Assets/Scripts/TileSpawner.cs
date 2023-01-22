@@ -49,7 +49,6 @@ namespace TempleRun
         //Spawns a tile at the location rotated towards the direction currently we are moving at
         private void SpawnTiles(Tile tile, bool spawnObstacle = false)
         {
-            Debug.Log("Spawn tile called" + tile.type);
             //Rotate tile 90 degrees to match the current tile direction
             Quaternion newTileRotation = tile.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
@@ -87,14 +86,12 @@ namespace TempleRun
         //It finds the next tile spawn location once the player turns
         public void AddNewDirection(Vector3 direction)
         {
-            Debug.Log("I am called" + direction);
             _currentTileDirection = direction;
             DeletePreviousTiles();
 
             Vector3 tilePlacementScale;
             if(_prevTile.GetComponent<Tile>().type == TileType.SIDEWAYS)
             {
-                Debug.Log("Sidewyas called" + direction);
                 /*Spawn sideways tile */
 
                 //Get the total size of the previous tile and divid by 2
@@ -104,7 +101,6 @@ namespace TempleRun
             }
             else
             {
-                Debug.Log("Another" + direction);
                 /*Spawn Left or Right side tile */
 
                 //since there are 12 extra tiles, subract 2 from the present left or right tile

@@ -256,13 +256,16 @@ MonoBehaviour:
   _increaseRate: 0.1
   _jumpHeight: 7
   _intialGravityValue: -9.8
-  groundLayer:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  turnLayer:
+  _turnLayer:
     serializedVersion: 2
     m_Bits: 128
-  slideAnimationClip: {fileID: 7400000, guid: 06fa3fea9f595fb449c67cdba6c8aa09, type: 2}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _slideAnimationClip: {fileID: 7400000, guid: 06fa3fea9f595fb449c67cdba6c8aa09, type: 2}
   _animator: {fileID: 8651164230848666768}
   IsDead: 0
   turnEvent:
