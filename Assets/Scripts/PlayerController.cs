@@ -52,8 +52,6 @@ namespace TempleRun.Player {
         [SerializeField]
         private UnityEvent<Vector3> _turnEvent;
         [SerializeField]
-        private UnityEvent<bool> _gameOverEvent;
-        [SerializeField]
         private UnityEvent<int> _scoreUpdateEvent;
 
 
@@ -78,7 +76,7 @@ namespace TempleRun.Player {
         {
             if (!IsGrounded(20f))
             {
-                GameOver();
+                GameManager.Instance.GameOver();
                 return;
             }
             //float vInput = Input.GetAxis("Vertical");
@@ -159,7 +157,7 @@ namespace TempleRun.Player {
             if (!turnPosition.HasValue)
             {
                 //Game over is called is there is no turn when player tries to turn
-                GameOver();
+                GameManager.Instance.GameOver();
                 return;
             }
             print("right");
@@ -185,7 +183,7 @@ namespace TempleRun.Player {
             if (!turnPosition.HasValue)
             {
                 //Game over is called is there is no turn when player tries to turn
-                GameOver();
+                GameManager.Instance.GameOver();
                 return;
             }
             print("Left");
@@ -241,16 +239,16 @@ namespace TempleRun.Player {
         {
             if (((1 << collision.gameObject.layer) & _obstacleLayer) != 0)
             {
-                GameOver();
+                GameManager.Instance.GameOver();
             }
         }
 
-        private void GameOver()
-        {
-            Debug.Log("GameOver");
-            _gameOverEvent.Invoke(true);
-            gameObject.SetActive(false);
-        }
+        //private void GameOver()
+        //{
+        //    Debug.Log("GameOver");
+        //    _gameOverEvent.Invoke(true);
+        //    gameObject.SetActive(false);
+        //}
     }
 }
 

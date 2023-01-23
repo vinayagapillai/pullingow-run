@@ -586,6 +586,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54207094}
   m_CullTransparentMesh: 1
+--- !u!1 &132796017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 132796018}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &132796018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132796017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &148370927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e1f189c92aaa04185bb07c91143e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 1722336653}
+  _virtualCamera: {fileID: 0}
 --- !u!4 &1074557758
 Transform:
   m_ObjectHideFlags: 0
@@ -1314,8 +1345,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 54207095}
-  - {fileID: 1898739862}
   - {fileID: 1535444606}
+  - {fileID: 1898739862}
   m_Father: {fileID: 782435042}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1519,7 +1550,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1116938842}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1666,7 +1697,7 @@ GameObject:
   - component: {fileID: 1722336653}
   m_Layer: 0
   m_Name: CM vcam1
-  m_TagString: Untagged
+  m_TagString: VirtualCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1769,7 +1800,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f917a4921ea5f8348bfc0d2d989e88f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+  _playerPrefab: {fileID: 1836965089}
+  spawnedPlayer: {fileID: 0}
+  _spawnPoint: {fileID: 132796017}
+  _gameOverEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1691580123443891955}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowGameplayUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &1836965089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+  m_PrefabInstance: {fileID: 8651164230369801828}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1898739861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,14 +1849,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898739861}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 22827903}
   m_Father: {fileID: 1116938842}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1854,9 +1907,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1691580122439896308, guid: 3be055aa6e0fe874e8eeaf07178d4944, type: 3}
-        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1770181987}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2038,70 +2091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 245704834}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 245704834}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AddNewDirection
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StopGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: TempleRun.TileSpawner, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameOver, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _gameOverEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899222, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: m_RootOrder
       value: 14

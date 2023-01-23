@@ -5,20 +5,25 @@ using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
-    [SerializeField]
-    private CinemachineVirtualCamera _camera;
+    public static CameraManager instance;
 
-    // Start is called before the first frame update
-    void Start()
+    [HideInInspector]
+    public CinemachineVirtualCamera _virtualCamera;
+
+    private void Awake()
     {
-        _camera = GetComponent<CinemachineVirtualCamera>();
-        //_camera.Follow = GameManager.Instance.SpawnPlayer().transform;
-        //_camera.LookAt = GameManager.Instance.SpawnPlayer().transform;
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
+        GameObject vCamObject = GameObject.FindWithTag("VirtualCamera");
+
+        _virtualCamera = vCamObject.GetComponent<CinemachineVirtualCamera>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

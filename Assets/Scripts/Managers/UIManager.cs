@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
     public void ShowGameoverUI(bool active)
     {
         Debug.Log(active);
-        _gameoverUI.SetActive(true);
+        _gameoverUI.SetActive(active);
     }
 
     //public void UpdateScoreUI(int value)
