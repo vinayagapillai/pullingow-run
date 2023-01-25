@@ -272,7 +272,7 @@ MonoBehaviour:
   _turnEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8972126826968389358, guid: 6685d77c9e4e36043a6d8d4671fde099, type: 3}
         m_TargetAssemblyTypeName: TempleRun.TileSpawner, Assembly-CSharp
         m_MethodName: AddNewDirection
         m_Mode: 0

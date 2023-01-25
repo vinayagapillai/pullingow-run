@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Animations;
 
-namespace TempleRun.Player {
+namespace TempleRun {
 
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
@@ -51,6 +51,7 @@ namespace TempleRun.Player {
         [SerializeField]
         private UnityEvent<int> _scoreUpdateEvent;
 
+        public static event Action _;
 
         private void OnEnable()
         {
@@ -163,6 +164,7 @@ namespace TempleRun.Player {
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(90, Vector3.up) * _moveDirection;
+            Debug.Log("target direction to turn:" + targetDirection);
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
             _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
@@ -190,6 +192,7 @@ namespace TempleRun.Player {
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(-90, Vector3.up) * _moveDirection;
+            Debug.Log("target direction to turn:" + targetDirection);
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
             _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
