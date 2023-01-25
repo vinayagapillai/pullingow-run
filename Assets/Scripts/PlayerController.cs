@@ -34,7 +34,6 @@ namespace TempleRun.Player {
         private float _scoreMultiplier = 10f;
 
         private float _playerSpeed;
-        private float _gravity;
         private Vector3 _velocity;
         private Vector3 _moveDirection = Vector3.forward;
 
@@ -45,8 +44,6 @@ namespace TempleRun.Player {
 
 
         public bool IsDead;
-        private bool _isDead;
-        private bool _isGrounded;
         private bool _isSliding = false;
 
         [SerializeField]
@@ -69,7 +66,7 @@ namespace TempleRun.Player {
             _slidingAnimationId = Animator.StringToHash("Sliding");
             _rb = GetComponent<Rigidbody>();
             _playerSpeed = _intailPlayerSpeed;
-            _gravity = _intialGravityValue;
+
         }
 
         private void Update()
@@ -154,6 +151,7 @@ namespace TempleRun.Player {
         {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition = CheckTurn(1f);
+            Debug.Log("Do I have a value:" + turnPosition.HasValue);
             if (!turnPosition.HasValue)
             {
                 //Game over is called is there is no turn when player tries to turn
@@ -180,6 +178,7 @@ namespace TempleRun.Player {
         {
             //Checking the turn by pssing the turn value
             Vector3? turnPosition =  CheckTurn(-1f);
+            Debug.Log("Do I have a value:" + turnPosition.HasValue);
             if (!turnPosition.HasValue)
             {
                 //Game over is called is there is no turn when player tries to turn
@@ -243,12 +242,6 @@ namespace TempleRun.Player {
             }
         }
 
-        //private void GameOver()
-        //{
-        //    Debug.Log("GameOver");
-        //    _gameOverEvent.Invoke(true);
-        //    gameObject.SetActive(false);
-        //}
     }
 }
 

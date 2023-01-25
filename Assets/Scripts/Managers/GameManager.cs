@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,19 +13,17 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject spawnedPlayer;
 
-    private Vector3 _playerIntialTransform;
     private bool _isGameOver = false;
+    private int _activeScene;
 
     public int Score { get; private set; }
 
     [SerializeField]
     private GameObject _spawnPoint;
-    [SerializeField]
-    private UnityEvent<bool> _gameOverEvent;
 
     private void Awake()
     {
-        _playerIntialTransform = _playerPrefab.GetComponent<Transform>().transform.position;
+         _activeScene = SceneManager.GetActiveScene().buildIndex;
         _playerPrefab.SetActive(true);
         if (Instance == null)
         {
@@ -59,21 +58,17 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _isGameOver = true;
-        Debug.Log("GameOver");
-        _gameOverEvent.Invoke(_isGameOver);
-        _playerPrefab.SetActive(false);
+        UIManager.Instance.ShowGameoverUI(_isGameOver);
+        _playerPrefab.SetActive(!_isGameOver);
     }
 
     public void RestartLevel()
     {
         _isGameOver = false;
-        Debug.Log("I am pressed");
-
         //If player prefab is not instantiated
-        _playerPrefab.transform.position = _playerIntialTransform;
-        _playerPrefab?.SetActive(true);
-
-        _gameOverEvent.Invoke(_isGameOver);
+        SceneManager.LoadScene(_activeScene);
+        UIManager.Instance.ShowGameoverUI(_isGameOver);
+        _playerPrefab.SetActive(!_isGameOver);
         //SpawnPlayer();
     }
 }

@@ -53,7 +53,6 @@ namespace TempleRun
             Quaternion newTileRotation = tile.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
             _prevTile =  (GameObject)Instantiate(tile.gameObject, _currentTileLocation, newTileRotation);
-            Debug.Log("Prev tile name:" + _prevTile.transform.name);
             _currentTiles.Add(_prevTile);
 
             if (spawnObstacle) SpawnObastacle();
@@ -87,7 +86,6 @@ namespace TempleRun
         //It finds the next tile spawn location once the player turns
         public void AddNewDirection(Vector3 direction)
         {
-            Debug.Log("Direction is:" + direction);
             _currentTileDirection = direction;
             DeletePreviousTiles();
 

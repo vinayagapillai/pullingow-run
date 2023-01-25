@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameoverUI(bool active)
     {
-        Debug.Log(active);
         _gameoverUI.SetActive(active);
     }
 
