@@ -252,10 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _intailPlayerSpeed: 10
-  _maxSpeed: 4
+  _maxSpeed: 40
   _increaseRate: 0.1
   _jumpHeight: 7
-  _intialGravityValue: -9.8
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -268,11 +267,13 @@ MonoBehaviour:
   _slideAnimationClip: {fileID: 7400000, guid: 06fa3fea9f595fb449c67cdba6c8aa09, type: 2}
   _animator: {fileID: 8651164230848666768}
   _scoreMultiplier: 10
+  _playerSpeed: 0
+  Gravity: {x: 0, y: 0, z: 0}
   IsDead: 0
   _turnEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972126826968389358, guid: 6685d77c9e4e36043a6d8d4671fde099, type: 3}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TempleRun.TileSpawner, Assembly-CSharp
         m_MethodName: AddNewDirection
         m_Mode: 0

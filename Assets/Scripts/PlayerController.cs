@@ -19,8 +19,6 @@ namespace TempleRun {
         [SerializeField]
         private float _jumpHeight = 1.0f;
         [SerializeField]
-        private float _intialGravityValue = -9.81f;
-        [SerializeField]
         private LayerMask _groundLayer;        
         [SerializeField]
         private LayerMask _turnLayer;        
@@ -33,9 +31,10 @@ namespace TempleRun {
         [SerializeField]
         private float _scoreMultiplier = 10f;
 
-        private float _playerSpeed;
+        public float _playerSpeed;
         private Vector3 _velocity;
         private Vector3 _moveDirection = Vector3.forward;
+        private float  _massMultiplier = .005f;
 
         private Rigidbody _rb;
 
@@ -50,8 +49,6 @@ namespace TempleRun {
         private UnityEvent<Vector3> _turnEvent;
         [SerializeField]
         private UnityEvent<int> _scoreUpdateEvent;
-
-        public static event Action _;
 
         private void OnEnable()
         {
@@ -98,6 +95,28 @@ namespace TempleRun {
             //Score functionality
             _score += _scoreMultiplier * Time.deltaTime;
             _scoreUpdateEvent.Invoke((int)_score);
+
+            if(_playerSpeed < _maxSpeed)
+            {
+                _playerSpeed += Time.deltaTime * _increaseRate;
+                //float speed = _rb.velocity.magnitude;
+                float nextNearestWholeNumber = Mathf.CeilToInt(_playerSpeed);
+           
+                if (AreEqual(_playerSpeed, nextNearestWholeNumber))
+                {
+                    _rb.mass += _massMultiplier;
+                }
+               
+                if(_animator.speed < 1.25f)
+                {
+                    _animator.speed += (1 / _playerSpeed) * Time.deltaTime;
+                }
+            }
+        }
+
+        bool AreEqual(float a, float b, float epsilon = 0.001f)
+        {
+            return Math.Abs(a - b) < epsilon;
         }
 
         private void OnDisable()
@@ -164,7 +183,6 @@ namespace TempleRun {
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(90, Vector3.up) * _moveDirection;
-            Debug.Log("target direction to turn:" + targetDirection);
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
             _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
@@ -192,7 +210,6 @@ namespace TempleRun {
             Vector3 origTurnPosition = turnPosition.Value;
             //Finding the target direction and multiplied by move Direction 
             Vector3 targetDirection = Quaternion.AngleAxis(-90, Vector3.up) * _moveDirection;
-            Debug.Log("target direction to turn:" + targetDirection);
             //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
             _turnEvent.Invoke(targetDirection);
             Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
@@ -215,9 +232,9 @@ namespace TempleRun {
 
         private void Crouch()
         {
-            print("Crouch");
             if(!_isSliding && IsGrounded())
             {
+                print("Crouch");
                 StartCoroutine(Slide());
             }
         }
@@ -228,7 +245,7 @@ namespace TempleRun {
 
             //Play Sliding Animation
             _animator.Play(_slidingAnimationId);
-            yield return new WaitForSeconds(_slideAnimationClip.length);
+            yield return new WaitForSeconds(_slideAnimationClip.length / _animator.speed);
             _isSliding = false;
         }
 
@@ -241,10 +258,10 @@ namespace TempleRun {
         {
             if (((1 << collision.gameObject.layer) & _obstacleLayer) != 0)
             {
+                Debug.Log("I am hitting:" + collision.gameObject.name);
                 GameManager.Instance.GameOver();
             }
         }
-
     }
 }
 

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
 
          _activeScene = SceneManager.GetActiveScene().buildIndex;
-       // _playerPrefab.SetActive(true);
+        _playerPrefab.SetActive(true);
         if (Instance == null)
         {
             Instance = this;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnPlayer();
+       //SpawnPlayer();
     }
 
     //public void UpdateScore(int value)
@@ -49,20 +49,20 @@ public class GameManager : MonoBehaviour
     //    UIManager.Instance.UpdateScoreUI(Score);
     //}
 
-    private void SpawnPlayer()
-    {
-        spawnedPlayer = (GameObject)Instantiate(_playerPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
-        spawnedPlayer.transform.name = "Player";
+    //private void SpawnPlayer()
+    //{
+    //    spawnedPlayer = (GameObject)Instantiate(_playerPrefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation);
+    //    spawnedPlayer.transform.name = "Player";
 
-        CameraManager.instance._virtualCamera.LookAt = spawnedPlayer.transform;
-        CameraManager.instance._virtualCamera.Follow = spawnedPlayer.transform;
-    }
+    //    CameraManager.instance._virtualCamera.LookAt = spawnedPlayer.transform;
+    //    CameraManager.instance._virtualCamera.Follow = spawnedPlayer.transform;
+    //}
 
     public void GameOver()
     {
         _isGameOver = true;
         UIManager.Instance.ShowGameoverUI(_isGameOver);
-        spawnedPlayer.SetActive(!_isGameOver);
+        _playerPrefab.SetActive(!_isGameOver);
     }
 
     public void RestartLevel()
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         //If player prefab is not instantiated
         SceneManager.LoadScene(_activeScene);
         UIManager.Instance.ShowGameoverUI(_isGameOver);
-        spawnedPlayer.SetActive(!_isGameOver);
+        _playerPrefab.SetActive(!_isGameOver);
         //SpawnPlayer();
     }
 }

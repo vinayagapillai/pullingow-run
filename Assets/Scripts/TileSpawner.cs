@@ -53,9 +53,7 @@ namespace TempleRun
             Quaternion newTileRotation = tile.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
             _prevTile =  (GameObject)Instantiate(tile.gameObject, _currentTileLocation, newTileRotation);
-            Debug.Log("Total no of prev tiles:" + _prevTile.name);
             _currentTiles.Add(_prevTile);
-            Debug.Log("In spawn tiles the count is:" + _currentTiles.Count);
             if (spawnObstacle) SpawnObastacle();
 
             //Get the previous tile location and multiply to the cureent direction
@@ -70,7 +68,6 @@ namespace TempleRun
             Debug.Log("Current Tiles count:" + _currentTiles.Count);
             while(_currentTiles.Count != 1)
             {
-                Debug.Log("Current Tiles count:" + _currentTiles[0].name);
                 GameObject tile = _currentTiles[0];
                 _currentTiles.RemoveAt(0);
                 Destroy(tile);
@@ -89,7 +86,6 @@ namespace TempleRun
         //It finds the next tile spawn location once the player turns
         public void AddNewDirection(Vector3 direction)
         {
-            Debug.Log("Direction to turn:" + direction);
             _currentTileDirection = direction;
             DeletePreviousTiles();
 
@@ -117,7 +113,6 @@ namespace TempleRun
 
             //Spawn certain amount of straight tiles after turning
             int currentPathLength = Random.Range(_minimumStraightTile, _maximumStraightTile);
-            Debug.Log("Current Path Length:" + currentPathLength);
             for (int i = 0; i < currentPathLength; i++)
             {
                 //Spawn tile
@@ -133,7 +128,7 @@ namespace TempleRun
         private void SpawnObastacle()
         {
             //We have 20% chance to spawn and obstacle and 80% not
-            if (Random.value > 0.2f) return;
+            if (Random.value > 0.4f) return;
 
             GameObject obstaclePrefab = SelectRandomGameObjectFromList(_obstacles);
 
