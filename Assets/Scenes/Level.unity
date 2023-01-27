@@ -2122,7 +2122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
