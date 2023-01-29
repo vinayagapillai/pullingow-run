@@ -824,13 +824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileStartCount: 10
-  _minimumStraightTile: 3
   _maximumStraightTile: 10
   _startingTile: {fileID: 7270030239991754380, guid: 50a7756a8e2f0f14787d70ef66f51488, type: 3}
-  _turnTiles:
-  - {fileID: 3504972824814534260, guid: 57a0c77d40fb7f64f88c73e669bd75d0, type: 3}
-  - {fileID: 3109650500946958552, guid: d1bc38dd49605864690bd11be3a4da2a, type: 3}
-  - {fileID: 5635246150992067340, guid: 406d087854fa4cf4ba1b09b5571e98e9, type: 3}
   _obstacles:
   - {fileID: 1887772381221813489, guid: 7acef6c3f1b5d6f45b162045d394132f, type: 3}
   - {fileID: 7602181854675208719, guid: 155f450bb33de2c4f96d377dba80b194, type: 3}
@@ -1077,7 +1072,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e8bacfc793ec544a9bad2d41a61a418, type: 2}
+  - {fileID: 2100000, guid: 01be8cb82b3b7b54d9e7da2899691817, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2116,26 +2111,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3651306050922156640, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9999692
-      objectReference: {fileID: 0}
-    - target: {fileID: 3651306050922156640, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.007853894
-      objectReference: {fileID: 0}
-    - target: {fileID: 3651306050922156640, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.9
-      objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _animator
-      value: 
-      objectReference: {fileID: 8651164230369801830}
+    - target: {fileID: 8651164230269899210, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2184,31 +2167,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1008751979, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83034334aba7ad40995660c7d38b007, type: 3}
---- !u!1 &8651164230369801829 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 715222860722655999, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-  m_PrefabInstance: {fileID: 8651164230369801828}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &8651164230369801830
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8651164230369801829}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2b33987cce5eada49bd1b85953db624b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
