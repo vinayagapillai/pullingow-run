@@ -64,7 +64,7 @@ namespace TempleRun
         {
             yield return new WaitForSeconds(6f);
             //DeletePreviousTiles();
-            SpawnTiles();
+            SpawnTiles(true);
         }
 
         //Delete tiles and obstacles
