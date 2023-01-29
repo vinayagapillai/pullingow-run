@@ -26,6 +26,7 @@ namespace TempleRun
         private List<GameObject> _currentObstacles;
 
         private bool _isMaxTileReached = false;
+        private int _spawnTilesCallcount = 0;
 
         private void Start()
         {
@@ -41,16 +42,19 @@ namespace TempleRun
         //Spawns a tile at the location rotated towards the direction currently we are moving at
         private void SpawnTiles(bool spawnObstacle = false)
         {
+
             //Spawning straight tiles
             for (int i = 0; i < _tileStartCount; i++)
             {
-
+                _spawnTilesCallcount++;
                 //Rotate tile 90 degrees to match the current tile direction
                 Quaternion newTileRotation = _startingTile.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
                 _prevTile =  (GameObject)Instantiate(_startingTile, _currentTileLocation, newTileRotation);
                 _currentTiles.Add(_prevTile);
-                _currentTiles[i].name = _startingTile.name + i.ToString();
+                //if(count == 10)
+                //    _currentTiles[i].name = _startingTile.name + (count).ToString();
+                _currentTiles[i].name = _startingTile.name + (_spawnTilesCallcount).ToString();
                 if (spawnObstacle) SpawnObastacle();
 
                 //Get the previous tile location and multiply to the cureent direction
@@ -64,6 +68,7 @@ namespace TempleRun
         {
             yield return new WaitForSeconds(6f);
             //DeletePreviousTiles();
+            _spawnTilesCallcount++;
             SpawnTiles(true);
         }
 

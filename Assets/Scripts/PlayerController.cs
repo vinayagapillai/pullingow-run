@@ -34,6 +34,7 @@ namespace TempleRun {
         public float _playerSpeed;
         private Vector3 _velocity;
         private Vector3 _moveDirection = Vector3.forward;
+        private Transform _childPosition;
         private float  _massMultiplier = .005f;
 
         private Rigidbody _rb;
@@ -64,7 +65,6 @@ namespace TempleRun {
             _slidingAnimationId = Animator.StringToHash("Sliding");
             _rb = GetComponent<Rigidbody>();
             _playerSpeed = _intailPlayerSpeed;
-
         }
 
         private void Update()
@@ -112,6 +112,8 @@ namespace TempleRun {
                     _animator.speed += (1 / _playerSpeed) * Time.deltaTime;
                 }
             }
+
+            Debug.Log(this.gameObject.transform.GetChild(0).rotation);
         }
 
         bool AreEqual(float a, float b, float epsilon = 0.001f)
@@ -242,7 +244,7 @@ namespace TempleRun {
         private IEnumerator Slide()
         {
             _isSliding = true;
-
+            transform.rotation = this.gameObject.transform.GetChild(0).rotation;
             //Play Sliding Animation
             _animator.Play(_slidingAnimationId);
             yield return new WaitForSeconds(_slideAnimationClip.length / _animator.speed);
