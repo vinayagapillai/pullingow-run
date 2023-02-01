@@ -2116,6 +2116,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+      propertyPath: _playerSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 245704834}

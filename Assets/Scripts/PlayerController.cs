@@ -30,14 +30,16 @@ namespace TempleRun {
         private Animator _animator;
         [SerializeField]
         private float _scoreMultiplier = 10f;
+        [SerializeField]
+        private Transform _childRotation;
 
         public float _playerSpeed;
         private Vector3 _velocity;
         private Vector3 _moveDirection = Vector3.forward;
-        private Transform _childPosition;
         private float  _massMultiplier = .005f;
 
         private Rigidbody _rb;
+        private CapsuleCollider _capsuleCollider;
 
         private int _slidingAnimationId;
         private float _score = 0;
@@ -64,11 +66,23 @@ namespace TempleRun {
         {
             _slidingAnimationId = Animator.StringToHash("Sliding");
             _rb = GetComponent<Rigidbody>();
+            _capsuleCollider = GetComponent<CapsuleCollider>();
             _playerSpeed = _intailPlayerSpeed;
         }
 
         private void Update()
         {
+            float Rotation;
+            if (_childRotation.localRotation.eulerAngles.z <= 180f)
+            {
+                Rotation = _childRotation.localRotation.eulerAngles.z;
+            }
+            else
+            {
+                Rotation = _childRotation.localRotation.eulerAngles.z - 360f;
+            }
+            Debug.Log(Rotation);
+            //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, Rotation);
             if (!IsGrounded(20f))
             {
                 GameManager.Instance.GameOver();
@@ -91,7 +105,6 @@ namespace TempleRun {
                 _velocity.y = 0;
             }
 
-
             //Score functionality
             _score += _scoreMultiplier * Time.deltaTime;
             _scoreUpdateEvent.Invoke((int)_score);
@@ -112,8 +125,6 @@ namespace TempleRun {
                     _animator.speed += (1 / _playerSpeed) * Time.deltaTime;
                 }
             }
-
-            Debug.Log(this.gameObject.transform.GetChild(0).rotation);
         }
 
         bool AreEqual(float a, float b, float epsilon = 0.001f)
@@ -244,10 +255,20 @@ namespace TempleRun {
         private IEnumerator Slide()
         {
             _isSliding = true;
-            transform.rotation = this.gameObject.transform.GetChild(0).rotation;
+            //shrink collider height when playing animation
+            Vector3 originalCenter = _capsuleCollider.center;
+            Vector3 newCenter = originalCenter;
+            _capsuleCollider.height /= 2;
+            newCenter.y -= _capsuleCollider.height / 2;
+            _capsuleCollider.center = newCenter;
+
             //Play Sliding Animation
             _animator.Play(_slidingAnimationId);
             yield return new WaitForSeconds(_slideAnimationClip.length / _animator.speed);
+
+            //set capsule collide back after sliding
+            _capsuleCollider.height *= 2;
+            _capsuleCollider.center = originalCenter;
             _isSliding = false;
         }
 

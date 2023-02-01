@@ -132,6 +132,7 @@ MonoBehaviour:
   _slideAnimationClip: {fileID: 7400000, guid: 06fa3fea9f595fb449c67cdba6c8aa09, type: 2}
   _animator: {fileID: 8651164230369801830}
   _scoreMultiplier: 10
+  _childRotation: {fileID: 0}
   _playerSpeed: 0
   IsDead: 0
   _turnEvent:
