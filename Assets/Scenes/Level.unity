@@ -982,6 +982,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &635299763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6198726556937359407, guid: b83034334aba7ad40995660c7d38b007, type: 3}
+  m_PrefabInstance: {fileID: 8651164230369801828}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &782435041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,9 +2121,9 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
-      propertyPath: _playerSpeed
-      value: 10
-      objectReference: {fileID: 0}
+      propertyPath: _childRotation
+      value: 
+      objectReference: {fileID: 635299763}
     - target: {fileID: 8651164230269899220, guid: b83034334aba7ad40995660c7d38b007, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

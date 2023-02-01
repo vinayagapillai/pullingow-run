@@ -47,6 +47,12 @@ namespace TempleRun {
 
         public bool IsDead;
         private bool _isSliding = false;
+        private bool _isJumping = false;
+        private bool _isGrounded = false;
+
+        private bool _crouchClicked = false;
+        private bool _jumpClicked = false;
+
 
         [SerializeField]
         private UnityEvent<Vector3> _turnEvent;
@@ -161,7 +167,6 @@ namespace TempleRun {
             {
                 return false;
             }
-
         }
 
         private Vector3? CheckTurn(float _turnValue)
@@ -237,16 +242,30 @@ namespace TempleRun {
         private void Jump()
         {
             print("Jump");
-            if (IsGrounded())
+            if (IsGrounded() && !_isJumping)
             {
+                _isJumping = true;
                 _rb.AddForce(transform.up * _jumpHeight, ForceMode.Impulse);
+                _isJumping=false;
             }
+            
         }
 
         private void Crouch()
         {
+            _crouchClicked = true;
+            //Debug.Log("Ground:" + IsGrounded() + "Slide:" + _isSliding + "Jump:" + _isJumping);
             if(!_isSliding && IsGrounded())
             {
+                _isSliding = true;
+                print("Crouch");
+                StartCoroutine(Slide());
+            }
+            //Checking if in air and noSliding and if crouch pressed 
+            //Call the DropToGroud function and play the croch animation
+            else if(!IsGrounded() && !_isSliding && DropToGround())
+            {
+                _isSliding = true;
                 print("Crouch");
                 StartCoroutine(Slide());
             }
@@ -270,6 +289,27 @@ namespace TempleRun {
             _capsuleCollider.height *= 2;
             _capsuleCollider.center = originalCenter;
             _isSliding = false;
+            _crouchClicked = false;
+        }
+
+        private bool DropToGround()
+        {
+            Debug.Log("Dropping");
+            //Getting the old Gravity
+            Vector3 standardGravity = Physics.gravity;
+            //Making the player to fall ground while in air 
+            //setting up new gravity
+            Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y * 5, Physics.gravity.z);
+            StartCoroutine(SetGravityBack(standardGravity));
+            return true;
+
+        }
+
+        //Setting the gravity back to noraml after sudden fall
+        private IEnumerator SetGravityBack(Vector3 standardGravity1)
+        {
+            yield return new WaitForSeconds(0.2f);
+            Physics.gravity = standardGravity1;
         }
 
         private void UsePowerUp()
