@@ -87,8 +87,7 @@ namespace TempleRun {
             {
                 Rotation = _childRotation.localRotation.eulerAngles.z - 360f;
             }
-            Debug.Log(Rotation);
-            //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, Rotation);
+
             if (!IsGrounded(20f))
             {
                 GameManager.Instance.GameOver();
@@ -246,7 +245,7 @@ namespace TempleRun {
             {
                 _isJumping = true;
                 _rb.AddForce(transform.up * _jumpHeight, ForceMode.Impulse);
-                _isJumping=false;
+                _isJumping = false;
             }
             
         }
@@ -297,9 +296,11 @@ namespace TempleRun {
             Debug.Log("Dropping");
             //Getting the old Gravity
             Vector3 standardGravity = Physics.gravity;
+
             //Making the player to fall ground while in air 
             //setting up new gravity
             Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y * 5, Physics.gravity.z);
+
             StartCoroutine(SetGravityBack(standardGravity));
             return true;
 
