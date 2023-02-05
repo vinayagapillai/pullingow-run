@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Animations;
+using DG.Tweening;
 
 namespace TempleRun {
 
@@ -32,11 +33,15 @@ namespace TempleRun {
         private float _scoreMultiplier = 10f;
         [SerializeField]
         private Transform _childRotation;
+        [SerializeField]
+        private float _switchLaneTime = .5f;        
+ 
 
         public float _playerSpeed;
         private Vector3 _velocity;
         private Vector3 _moveDirection = Vector3.forward;
         private float  _massMultiplier = .005f;
+        private int maxLAndRValue = 4;
 
         private Rigidbody _rb;
         private CapsuleCollider _capsuleCollider;
@@ -168,74 +173,93 @@ namespace TempleRun {
             }
         }
 
-        private Vector3? CheckTurn(float _turnValue)
-        {
-            //Returns a array of collider
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, .1f, _turnLayer);
-            if (hitColliders.Length != 0)
-            {
-                Tile tile = hitColliders[0].transform.parent.GetComponent<Tile>();
-                TileType type = tile.type;
-                if((type == TileType.LEFT && _turnValue == -1f) || (type == TileType.RIGHT && _turnValue == 1f) || (type == TileType.SIDEWAYS))
-                {
-                    return tile.pivot.position;
-                }
-            }
-            return null;
-        }
+        //private Vector3? CheckTurn(float _turnValue)
+        //{
+        //    //Returns a array of collider
+        //    Collider[] hitColliders = Physics.OverlapSphere(transform.position, .1f, _turnLayer);
+        //    if (hitColliders.Length != 0)
+        //    {
+        //        Tile tile = hitColliders[0].transform.parent.GetComponent<Tile>();
+        //        TileType type = tile.type;
+        //        if((type == TileType.LEFT && _turnValue == -1f) || (type == TileType.RIGHT && _turnValue == 1f) || (type == TileType.SIDEWAYS))
+        //        {
+        //            return tile.pivot.position;
+        //        }
+        //    }
+        //    return null;
+        //}
+
+        //private void TurnRight()
+        //{
+        //    //Checking the turn by pssing the turn value
+        //    Vector3? turnPosition = CheckTurn(1f);
+        //    Debug.Log("Do I have a value:" + turnPosition.HasValue);
+        //    if (!turnPosition.HasValue)
+        //    {
+        //        //Game over is called is there is no turn when player tries to turn
+        //        GameManager.Instance.GameOver();
+        //        return;
+        //    }
+        //    print("right");
+        //    //Assigning the local variable turnPosition to another variable since turnPosition can be null
+        //    Vector3 origTurnPosition = turnPosition.Value;
+        //    //Finding the target direction and multiplied by move Direction 
+        //    Vector3 targetDirection = Quaternion.AngleAxis(90, Vector3.up) * _moveDirection;
+        //    //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
+        //    _turnEvent.Invoke(targetDirection);
+        //    Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
+        //    transform.position = tempPlayerPosition;
+        //    //Rotating the player 
+        //    Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
+        //    transform.rotation = targetRotation;
+        //    //Setting up the moveDirection
+        //    _moveDirection = transform.forward.normalized;
+        //}
+
+        //private void TurnLeft()
+        //{
+        //    //Checking the turn by pssing the turn value
+        //    Vector3? turnPosition =  CheckTurn(-1f);
+        //    Debug.Log("Do I have a value:" + turnPosition.HasValue);
+        //    if (!turnPosition.HasValue)
+        //    {
+        //        //Game over is called is there is no turn when player tries to turn
+        //        GameManager.Instance.GameOver();
+        //        return;
+        //    }
+        //    print("Left");
+        //    //Assigning the local variable turnPosition to another variable since turnPosition can be null
+        //    Vector3 origTurnPosition = turnPosition.Value;
+        //    //Finding the target direction and multiplied by move Direction 
+        //    Vector3 targetDirection = Quaternion.AngleAxis(-90, Vector3.up) * _moveDirection;
+        //    //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
+        //    _turnEvent.Invoke(targetDirection);
+        //    Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
+        //    transform.position = tempPlayerPosition;
+        //    //Rotating the player 
+        //    Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, -90, 0);
+        //    transform.rotation = targetRotation;
+        //    //Setting up the moveDirection
+        //    _moveDirection = transform.forward.normalized;
+        //}
 
         private void TurnRight()
         {
-            //Checking the turn by pssing the turn value
-            Vector3? turnPosition = CheckTurn(1f);
-            Debug.Log("Do I have a value:" + turnPosition.HasValue);
-            if (!turnPosition.HasValue)
+            float presentXPos = transform.position.x;
+            if(presentXPos < maxLAndRValue)
             {
-                //Game over is called is there is no turn when player tries to turn
-                GameManager.Instance.GameOver();
-                return;
+                transform.DOMoveX(presentXPos + maxLAndRValue, _switchLaneTime * 0.5f).SetEase(Ease.OutFlash);
             }
-            print("right");
-            //Assigning the local variable turnPosition to another variable since turnPosition can be null
-            Vector3 origTurnPosition = turnPosition.Value;
-            //Finding the target direction and multiplied by move Direction 
-            Vector3 targetDirection = Quaternion.AngleAxis(90, Vector3.up) * _moveDirection;
-            //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
-            _turnEvent.Invoke(targetDirection);
-            Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
-            transform.position = tempPlayerPosition;
-            //Rotating the player 
-            Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
-            transform.rotation = targetRotation;
-            //Setting up the moveDirection
-            _moveDirection = transform.forward.normalized;
+            //Mathf.Clamp(presentXPos, - maxLAndRValue, maxLAndRValue);
         }
-
         private void TurnLeft()
         {
-            //Checking the turn by pssing the turn value
-            Vector3? turnPosition =  CheckTurn(-1f);
-            Debug.Log("Do I have a value:" + turnPosition.HasValue);
-            if (!turnPosition.HasValue)
+            float presentXPos = transform.position.x;
+            if(presentXPos > -maxLAndRValue)
             {
-                //Game over is called is there is no turn when player tries to turn
-                GameManager.Instance.GameOver();
-                return;
+                transform.DOMoveX(presentXPos - maxLAndRValue, _switchLaneTime * 0.5f).SetEase(Ease.OutFlash);
             }
-            print("Left");
-            //Assigning the local variable turnPosition to another variable since turnPosition can be null
-            Vector3 origTurnPosition = turnPosition.Value;
-            //Finding the target direction and multiplied by move Direction 
-            Vector3 targetDirection = Quaternion.AngleAxis(-90, Vector3.up) * _moveDirection;
-            //Invokes the AddDiretion in TileSpawnerScript by passing the found target direction 
-            _turnEvent.Invoke(targetDirection);
-            Vector3 tempPlayerPosition = new Vector3(origTurnPosition.x, transform.position.y, origTurnPosition.z);
-            transform.position = tempPlayerPosition;
-            //Rotating the player 
-            Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, -90, 0);
-            transform.rotation = targetRotation;
-            //Setting up the moveDirection
-            _moveDirection = transform.forward.normalized;
+            
         }
 
         private void Jump()
