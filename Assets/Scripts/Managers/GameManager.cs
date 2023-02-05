@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject _playerPrefab;
 
     public static GameManager Instance;
+    public static event Action<GameState> OnGameStateChanged;
 
     [HideInInspector]
     public GameObject spawnedPlayer;
@@ -21,6 +23,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _spawnPoint;
+    [SerializeField]
+    public GameState _gameStates;
+
+
 
     private void Awake()
     {
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        UpdateGameState(GameState.Menu);
        //SpawnPlayer();
     }
 
@@ -73,5 +80,36 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowGameoverUI(_isGameOver);
         _playerPrefab.SetActive(!_isGameOver);
         //SpawnPlayer();
+    }
+
+    public void UpdateGameState(GameState newState)
+    {
+        _gameStates = newState;
+
+        switch (_gameStates)
+        {
+            case GameState.Menu:
+                break;
+            case GameState.GamePlay:
+                break;
+            case GameState.GamePause:
+                break;
+            case GameState.Victory:
+                break;
+            case GameState.Lose:
+                break;
+        }
+
+        OnGameStateChanged?.Invoke(newState);
+    }
+
+    public enum GameState
+    {
+        Menu,
+        GamePlay,
+        GamePause,
+        Victory,
+        Lose
+
     }
 }
