@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _spawnPoint;
     [SerializeField]
-    public GameState _gameStates;
-
+    private GameState _gameStates;
+    [SerializeField]
+    private GameObject _pauseScreen;
 
 
     private void Awake()
@@ -101,6 +102,12 @@ public class GameManager : MonoBehaviour
         }
 
         OnGameStateChanged?.Invoke(newState);
+    }
+
+    public void PauseScreen()
+    {
+        Time.timeScale = 0;
+        _pauseScreen.SetActive(true);
     }
 
     public enum GameState
