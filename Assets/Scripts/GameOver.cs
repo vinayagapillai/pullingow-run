@@ -8,10 +8,5 @@ public class GameOver : MonoBehaviour
     public void StopGame(int score)
     {
         _gameOverCanvas.SetActive(true);
-    }
-
-    public void RestartLevel()
-    {
-
-    }   
+    }  
 }

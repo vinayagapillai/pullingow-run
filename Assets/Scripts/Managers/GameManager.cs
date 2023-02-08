@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public GameObject spawnedPlayer;
+    private int _activeScene;
 
     private bool _isGameOver = false;
-    private int _activeScene;
 
     public int Score { get; private set; }
 
@@ -26,13 +26,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameState _gameStates;
     [SerializeField]
-    private GameObject _pauseScreen;
+    private GameObject _pauseScreen; 
+    [SerializeField]
+    private GameObject _mainMenu;
+    [SerializeField]
+    private GameObject _gamePlayScreen;
 
 
     private void Awake()
     {
-
-         _activeScene = SceneManager.GetActiveScene().buildIndex;
+        _mainMenu.SetActive(true);
+        Time.timeScale = 0;
+        _activeScene = SceneManager.GetActiveScene().buildIndex;
         _playerPrefab.SetActive(true);
         if (Instance == null)
         {
@@ -66,6 +71,13 @@ public class GameManager : MonoBehaviour
     //    CameraManager.instance._virtualCamera.Follow = spawnedPlayer.transform;
     //}
 
+    public void StartGame()
+    {
+        _mainMenu.SetActive(false);
+        _gamePlayScreen.SetActive(true);
+        Time.timeScale = 1;
+    }
+
     public void GameOver()
     {
         _isGameOver = true;
@@ -75,12 +87,29 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
+        Time.timeScale = 1;
         _isGameOver = false;
-        //If player prefab is not instantiated
         SceneManager.LoadScene(_activeScene);
+        //If player prefab is not instantiated
         UIManager.Instance.ShowGameoverUI(_isGameOver);
         _playerPrefab.SetActive(!_isGameOver);
         //SpawnPlayer();
+    }
+    public void PauseScreen()
+    {
+        Time.timeScale = 0;
+        _pauseScreen.SetActive(true);
+    } 
+    public void ResumeGame()
+    {
+        Debug.Log("Restarted");
+        Time.timeScale = 1;
+        _pauseScreen.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     public void UpdateGameState(GameState newState)
@@ -91,32 +120,30 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Menu:
                 break;
-            case GameState.GamePlay:
+            case GameState.MainGame:
                 break;
             case GameState.GamePause:
                 break;
-            case GameState.Victory:
+            case GameState.WinScreen:
                 break;
-            case GameState.Lose:
+            case GameState.GameOver:
+                break;
+            case GameState.ShareScreen:
                 break;
         }
 
         OnGameStateChanged?.Invoke(newState);
     }
 
-    public void PauseScreen()
-    {
-        Time.timeScale = 0;
-        _pauseScreen.SetActive(true);
-    }
+
 
     public enum GameState
     {
         Menu,
-        GamePlay,
+        MainGame,
         GamePause,
-        Victory,
-        Lose
-
+        WinScreen,
+        GameOver,
+        ShareScreen
     }
 }
