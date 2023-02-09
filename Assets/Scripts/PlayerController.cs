@@ -75,7 +75,7 @@ namespace TempleRun {
 
         private void Start()
         {
-            _slidingAnimationId = Animator.StringToHash("Sliding");
+            _slidingAnimationId = Animator.StringToHash("Running Slide");
             _rb = GetComponent<Rigidbody>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
             _playerSpeed = _intailPlayerSpeed;
