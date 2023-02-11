@@ -101,7 +101,7 @@ namespace TempleRun
 
         private void DeletePreviousObstacles()
         {
-            while (_currentObstacles.Count != _obstacleCountStorer - 4)
+            while (_currentObstacles.Count != _obstacleCountStorer - 2)
             {
                 GameObject obstacle = _currentObstacles[0];
                 _currentObstacles.RemoveAt(0);
