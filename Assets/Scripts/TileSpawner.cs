@@ -27,6 +27,20 @@ namespace TempleRun
 
         private bool _isMaxTileReached = false;
         private int _spawnTilesCallcount = 0;
+        private int _tileCountStorer = 0;
+        private int _obstacleCountStorer = 0;
+
+        private void OnEnable()
+        {
+            PlayerController.DestroyPreviousTiles += DeletePreviousTiles;
+            PlayerController.DestroyPreviousTiles += DeletePreviousObstacles;
+        }
+
+        private void OnDisable()
+        {
+            PlayerController.DestroyPreviousTiles -= DeletePreviousTiles;
+            PlayerController.DestroyPreviousTiles -= DeletePreviousObstacles;
+        }
 
         private void Start()
         {
@@ -60,6 +74,7 @@ namespace TempleRun
                 //Get the previous tile location and multiply to the cureent direction
                 //Calculate the currentTileLocation omly if we are going straight
                 _currentTileLocation += Vector3.Scale(_prevTile.GetComponent<Renderer>().bounds.size, _currentTileDirection);
+                _tileCountStorer = _currentTiles.Count;
             }
             StartCoroutine(SpawnTilesLater());
         }
@@ -75,21 +90,22 @@ namespace TempleRun
         //Delete tiles and obstacles
         private void DeletePreviousTiles()
         {
-            Debug.Log("Current Tiles count:" + _currentTiles.Count);
-            while(_currentTiles.Count != 7)
+            while(_currentTiles.Count != _tileCountStorer -10)
             {
                 GameObject tile = _currentTiles[0];
                 _currentTiles.RemoveAt(0);
                 Destroy(tile);
 
             }
+        }
 
-            while (_currentObstacles.Count != 0)
+        private void DeletePreviousObstacles()
+        {
+            while (_currentObstacles.Count != _obstacleCountStorer - 4)
             {
                 GameObject obstacle = _currentObstacles[0];
                 _currentObstacles.RemoveAt(0);
                 Destroy(obstacle);
-
             }
         }
 
@@ -147,6 +163,7 @@ namespace TempleRun
 
             GameObject obstacle = (GameObject)Instantiate(obstaclePrefab, _currentTileLocation, newObjectRotation);
             _currentObstacles.Add(obstacle);
+            _obstacleCountStorer = _currentObstacles.Count;
         }
 
         //Select a random Gameobject

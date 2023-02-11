@@ -46,6 +46,8 @@ namespace TempleRun {
         private Rigidbody _rb;
         private CapsuleCollider _capsuleCollider;
 
+        private int _maxTilesCanPass = 20;
+        private int _currentTilesPassed = 0;
         private int _slidingAnimationId;
         private float _score = 0;
 
@@ -58,6 +60,9 @@ namespace TempleRun {
         private bool _crouchClicked = false;
         private bool _jumpClicked = false;
 
+        public static event Action DestroyPreviousTiles;
+        public static event Action DestroyPreviousObstacles;
+        public static event Action DestroyPreviousBuildings;
 
         [SerializeField]
         private UnityEvent<Vector3> _turnEvent;
@@ -349,6 +354,30 @@ namespace TempleRun {
                 Debug.Log("I am hitting:" + collision.gameObject.name);
                 GameManager.Instance.GameOver();
             }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Current Tiles Passed:" + _currentTilesPassed);
+            if(_currentTilesPassed == _maxTilesCanPass)
+            {
+                _currentTilesPassed = 0;  
+            }
+            else if ((((1 << other.gameObject.layer) & _groundLayer) != 0) && _currentTilesPassed < _maxTilesCanPass)
+            {
+                if(_currentTilesPassed == 19)
+                {
+                    DestroyPreviousTiles?.Invoke();
+                    DestroyPreviousObstacles?.Invoke();
+                    DestroyPreviousBuildings?.Invoke();
+                    _currentTilesPassed++;
+                }
+                else
+                {
+                    _currentTilesPassed++;
+                }
+            }
+
         }
     }
 }
