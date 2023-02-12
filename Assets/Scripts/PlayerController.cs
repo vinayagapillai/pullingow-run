@@ -26,6 +26,8 @@ namespace TempleRun {
         [SerializeField]
         private LayerMask _obstacleLayer;
         [SerializeField]
+        private LayerMask _collectibleLayer;
+        [SerializeField]
         private AnimationClip _slideAnimationClip;
         [SerializeField]
         private Animator _animator;
@@ -376,6 +378,12 @@ namespace TempleRun {
                 {
                     _currentTilesPassed++;
                 }
+            }
+            else if(((1 << other.gameObject.layer) & _collectibleLayer) != 0)
+            {
+                Debug.Log("Moneey Money Money Ummah");
+                UIManager.Instance.UpdateScoreUI(other.gameObject.GetComponent<Value>().money.value);
+                Destroy(other.gameObject);
             }
 
         }

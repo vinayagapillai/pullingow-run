@@ -27,7 +27,6 @@ namespace TempleRun
         private List<GameObject> _currentTiles;
         private List<GameObject> _currentObstacles;
 
-        private bool _isMaxTileReached = false;
         private int _spawnTilesCallcount = 0;
         private int _tileCountStorer = 0;
         private int _obstacleCountStorer = 0;

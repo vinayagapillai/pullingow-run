@@ -857,7 +857,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1000
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4072,6 +4072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameplayUI: {fileID: 148370927}
   _gameoverUI: {fileID: 782435041}
+  _scoreUI: {fileID: 210572890}
 --- !u!4 &1691580123443891964
 Transform:
   m_ObjectHideFlags: 0
@@ -4158,6 +4159,10 @@ PrefabInstance:
       propertyPath: _slideAnimationClip
       value: 
       objectReference: {fileID: 7400000, guid: e46419c41b43ae145806fd4f6d8a3616, type: 2}
+    - target: {fileID: 1745845415100350771, guid: d1878b883b8621d4698f928ec72ce9c9, type: 3}
+      propertyPath: _collectibleLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 1745845415100350771, guid: d1878b883b8621d4698f928ec72ce9c9, type: 3}
       propertyPath: _turnEvent.m_PersistentCalls.m_Calls.Array.size
       value: 0

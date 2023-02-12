@@ -11,7 +11,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject _gameplayUI;
     [SerializeField] private GameObject _gameoverUI;
+    [SerializeField] private TMP_Text _scoreUI;
 
+    private int _total = 0;
     //[SerializeField] private TMP_Text _scoreUI;
 
     private void Awake()
@@ -36,8 +38,9 @@ public class UIManager : MonoBehaviour
         _gameoverUI.SetActive(active);
     }
 
-    //public void UpdateScoreUI(int value)
-    //{
-    //    _scoreUI.SetText(value.ToString());
-    //}
+    public void UpdateScoreUI(int value)
+    {
+        _total += value;
+        _scoreUI.SetText(_total.ToString());
+    }
 }
