@@ -1102,6 +1102,7 @@ MonoBehaviour:
   _obstacles:
   - {fileID: 1887772381221813489, guid: 7acef6c3f1b5d6f45b162045d394132f, type: 3}
   - {fileID: 1887772381221813489, guid: 8b589b29a90333b459b00d64b11a5cc0, type: 3}
+  _tiles: []
 --- !u!4 &245704835
 Transform:
   m_ObjectHideFlags: 0

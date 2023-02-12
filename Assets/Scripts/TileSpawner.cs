@@ -12,11 +12,13 @@ namespace TempleRun
         private int _maximumStraightTile = 10;
 
         [SerializeField]
-        private GameObject _startingTile;
+        private GameObject _startingTile;    
         //[SerializeField]
         //private List<GameObject> _turnTiles;
         [SerializeField]
-        private List<GameObject> _obstacles;
+        private List<GameObject> _obstacles;        
+        [SerializeField]
+        private List<GameObject> _tiles;
 
         private Vector3 _currentTileLocation = Vector3.zero;
         private Vector3 _currentTileDirection = Vector3.forward;
@@ -44,6 +46,9 @@ namespace TempleRun
 
         private void Start()
         {
+            AddGameObjectsToList(_startingTile);
+            //_rightTile = _startingTile.transform.GetChild(0).gameObject;
+            //_leftTile = _startingTile.transform.GetChild(1).gameObject;
             _currentTiles = new List<GameObject>();
             _currentObstacles = new List<GameObject>();
 
@@ -157,11 +162,14 @@ namespace TempleRun
             if (Random.value > 0.4f) return;
 
             GameObject obstaclePrefab = SelectRandomGameObjectFromList(_obstacles);
+            GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
+
+            Vector3 tileLocation = new Vector3(tilePrefab.transform.position.x, 0f,0f);
 
             //Rotate object 90 degrees to match the current tile direction
             Quaternion newObjectRotation = obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
-            GameObject obstacle = (GameObject)Instantiate(obstaclePrefab, _currentTileLocation, newObjectRotation);
+            GameObject obstacle = (GameObject)Instantiate(obstaclePrefab, _currentTileLocation + tileLocation, newObjectRotation);
             _currentObstacles.Add(obstacle);
             _obstacleCountStorer = _currentObstacles.Count;
         }
@@ -172,6 +180,19 @@ namespace TempleRun
             if (list.Count == 0)
                 return null;
             return list[Random.Range(0, list.Count)];
+        }
+
+        private void AddGameObjectsToList(GameObject gObject)
+        {
+            if(gObject != null)
+            {
+                _tiles.Add(gObject);
+                for (int i = 0; i < gObject.transform.childCount; i++)
+                {
+                    _tiles.Add(gObject.transform.GetChild(i).gameObject);
+                }
+                
+            }
         }
     }
 }
