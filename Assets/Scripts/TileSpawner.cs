@@ -19,6 +19,8 @@ namespace TempleRun
         private List<GameObject> _obstacles;        
         [SerializeField]
         private List<GameObject> _tiles;
+        [SerializeField]
+        private List<GameObject> _money;
 
         private Vector3 _currentTileLocation = Vector3.zero;
         private Vector3 _currentTileDirection = Vector3.forward;
@@ -58,7 +60,7 @@ namespace TempleRun
         }
 
         //Spawns a tile at the location rotated towards the direction currently we are moving at
-        private void SpawnTiles(bool spawnObstacle = false)
+        private void SpawnTiles(bool spawnObstacle = false, bool spawnMoney = true)
         {
 
             //Spawning straight tiles
@@ -74,6 +76,7 @@ namespace TempleRun
                 //    _currentTiles[i].name = _startingTile.name + (count).ToString();
                 _currentTiles[i].name = _startingTile.name + (_spawnTilesCallcount).ToString();
                 if (spawnObstacle) SpawnObastacle();
+                if (spawnMoney) SpawnMoney();
 
                 //Get the previous tile location and multiply to the cureent direction
                 //Calculate the currentTileLocation omly if we are going straight
@@ -171,6 +174,21 @@ namespace TempleRun
             GameObject obstacle = (GameObject)Instantiate(obstaclePrefab, _currentTileLocation + tileLocation, newObjectRotation);
             _currentObstacles.Add(obstacle);
             _obstacleCountStorer = _currentObstacles.Count;
+        }
+
+        private void SpawnMoney()
+        {
+            // We have 20 % chance to spawn and obstacle and 80 % not
+            if (Random.value > 0.3f) return;
+
+            GameObject moneyPrefab = SelectRandomGameObjectFromList(_money);
+            GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
+
+            Vector3 tileLocation = new Vector3(tilePrefab.transform.position.x, 0f, 0f);
+
+            Quaternion newObjectRotation = moneyPrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
+            GameObject money = (GameObject)Instantiate(moneyPrefab, _currentTileLocation + tileLocation, newObjectRotation);
+
         }
 
         //Select a random Gameobject
