@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3695900853804129058}
   - component: {fileID: 1275131593672240454}
   - component: {fileID: 7088902674829844637}
+  - component: {fileID: 4970751532406549498}
+  - component: {fileID: -4891586063989452288}
   m_Layer: 9
   m_Name: 100
   m_TagString: Untagged
@@ -83,3 +85,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4970751532406549498
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412745212793145001}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.021218814, y: 0.000010004708, z: 0.009024494}
+  m_Center: {x: 0, y: -0.000000014901161, z: 0}
+--- !u!114 &-4891586063989452288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412745212793145001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cfca8b4000b3444b8639c563a7ee95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: {fileID: 11400000, guid: b9f468486105f1142a7e11d7d8ee491a, type: 2}

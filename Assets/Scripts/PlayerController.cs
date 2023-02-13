@@ -360,7 +360,6 @@ namespace TempleRun {
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Current Tiles Passed:" + _currentTilesPassed);
             if(_currentTilesPassed == _maxTilesCanPass)
             {
                 _currentTilesPassed = 0;  
@@ -381,7 +380,6 @@ namespace TempleRun {
             }
             else if(((1 << other.gameObject.layer) & _collectibleLayer) != 0)
             {
-                Debug.Log("Moneey Money Money Ummah");
                 UIManager.Instance.UpdateScoreUI(other.gameObject.GetComponent<Value>().money.value);
                 Destroy(other.gameObject);
             }

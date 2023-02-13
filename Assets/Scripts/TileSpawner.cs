@@ -24,7 +24,12 @@ namespace TempleRun
 
         private Vector3 _currentTileLocation = Vector3.zero;
         private Vector3 _currentTileDirection = Vector3.forward;
+        private Vector3 _obstacleLocation;
+        private Vector3 _moneyLocation;
+        private Vector3 _tileLocation;
         private GameObject _prevTile;
+        private GameObject _obstaclePrefab;
+        private GameObject _moneyPrefab;
 
         private List<GameObject> _currentTiles;
         private List<GameObject> _currentObstacles;
@@ -88,7 +93,7 @@ namespace TempleRun
 
         IEnumerator SpawnTilesLater()
         {
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(3f);
             //DeletePreviousTiles();
             _spawnTilesCallcount++;
             SpawnTiles(true);
@@ -163,31 +168,30 @@ namespace TempleRun
             //We have 20% chance to spawn and obstacle and 80% not
             if (Random.value > 0.4f) return;
 
-            GameObject obstaclePrefab = SelectRandomGameObjectFromList(_obstacles);
+            _obstaclePrefab = SelectRandomGameObjectFromList(_obstacles);
             GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
 
-            Vector3 tileLocation = new Vector3(tilePrefab.transform.position.x, 0f,0f);
+            _obstacleLocation = new Vector3(tilePrefab.transform.position.x, 0f,0f);
 
             //Rotate object 90 degrees to match the current tile direction
-            Quaternion newObjectRotation = obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
+            Quaternion newObjectRotation = _obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
 
-            GameObject obstacle = (GameObject)Instantiate(obstaclePrefab, _currentTileLocation + tileLocation, newObjectRotation);
+            GameObject obstacle = (GameObject)Instantiate(_obstaclePrefab, _currentTileLocation + _obstacleLocation, newObjectRotation);
             _currentObstacles.Add(obstacle);
             _obstacleCountStorer = _currentObstacles.Count;
         }
 
         private void SpawnMoney()
         {
+            if (Random.value > 0.4f) return;
             // We have 20 % chance to spawn and obstacle and 80 % not
-            if (Random.value > 0.3f) return;
-
-            GameObject moneyPrefab = SelectRandomGameObjectFromList(_money);
+            _moneyPrefab = SelectRandomGameObjectFromList(_money);
             GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
 
-            Vector3 tileLocation = new Vector3(tilePrefab.transform.position.x, 0f, 0f);
-
-            Quaternion newObjectRotation = moneyPrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
-            GameObject money = (GameObject)Instantiate(moneyPrefab, _currentTileLocation + tileLocation, newObjectRotation);
+            _moneyLocation = new Vector3(tilePrefab.transform.position.x, 0f, 3f);
+            Debug.Log("Money Loc:" + _moneyPrefab?.transform.position.z + "Obst Loc:" + _obstaclePrefab?.transform.position.z);
+            Quaternion newObjectRotation = _moneyPrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
+            GameObject money = (GameObject)Instantiate(_moneyPrefab, _currentTileLocation + _moneyLocation, newObjectRotation);
 
         }
 

@@ -54,13 +54,13 @@ namespace TempleRun
                 _prevLeftBuilding = (GameObject)Instantiate(SelectRandomGameObjectFromList(_buildingList), _currentLeftBuildingLocation, newLeftBuildingRotation);
                 _currentLeftBuildings.Add(_prevLeftBuilding);
                 _currentLeftBuildings[i].name = _startingBuilding.name + (_currentLeftBuildings).ToString();
-                _currentLeftBuildingLocation += Vector3.Scale(_prevLeftBuilding.GetComponent<Renderer>().bounds.size*1.5f, _currentBuildingDirection);
+                _currentLeftBuildingLocation += Vector3.Scale(_prevLeftBuilding.GetComponent<Renderer>().bounds.size*2f, _currentBuildingDirection);
 
                 Quaternion newRightBuildingRotation = (_startingBuilding.transform.rotation) * Quaternion.LookRotation(_currentBuildingDirection, Vector3.up) * Quaternion.Euler(0, 0, 180);
                 _prevRightBuilding = (GameObject)Instantiate(SelectRandomGameObjectFromList(_buildingList), _currentRightBuildingLocation, newRightBuildingRotation);
                 _currentRightBuildings.Add(_prevRightBuilding);
                 _currentRightBuildings[i].name = _startingBuilding.name + (_currentRightBuildings).ToString();
-                _currentRightBuildingLocation += Vector3.Scale(_prevRightBuilding.GetComponent<Renderer>().bounds.size*1.5f, _currentBuildingDirection);
+                _currentRightBuildingLocation += Vector3.Scale(_prevRightBuilding.GetComponent<Renderer>().bounds.size*2f, _currentBuildingDirection);
 
                 _currentLeftBuildingCountStorer = _currentLeftBuildings.Count;
                 _currentRightBuildingCountStorer = _currentLeftBuildings.Count;
