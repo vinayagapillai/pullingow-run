@@ -183,13 +183,13 @@ namespace TempleRun
 
         private void SpawnMoney()
         {
-            if (Random.value > 0.4f) return;
             // We have 20 % chance to spawn and obstacle and 80 % not
+            if (Random.value > 0.3f) return;
+
             _moneyPrefab = SelectRandomGameObjectFromList(_money);
             GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
 
             _moneyLocation = new Vector3(tilePrefab.transform.position.x, 0f, 3f);
-            Debug.Log("Money Loc:" + _moneyPrefab?.transform.position.z + "Obst Loc:" + _obstaclePrefab?.transform.position.z);
             Quaternion newObjectRotation = _moneyPrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
             GameObject money = (GameObject)Instantiate(_moneyPrefab, _currentTileLocation + _moneyLocation, newObjectRotation);
 
