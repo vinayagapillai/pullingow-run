@@ -21,12 +21,15 @@ namespace TempleRun
         private List<GameObject> _tiles;
         [SerializeField]
         private List<GameObject> _money;
+        public Collider[] colliders;
+        public float radius;
 
         private Vector3 _currentTileLocation = Vector3.zero;
         private Vector3 _currentTileDirection = Vector3.forward;
         private Vector3 _obstacleLocation;
         private Vector3 _moneyLocation;
         private Vector3 _tileLocation;
+        private Vector3 _newMoneyLocation;
         private GameObject _prevTile;
         private GameObject _obstaclePrefab;
         private GameObject _moneyPrefab;
@@ -184,15 +187,23 @@ namespace TempleRun
         private void SpawnMoney()
         {
             // We have 20 % chance to spawn and obstacle and 80 % not
-            if (Random.value > 0.3f) return;
+            if (Random.value > 0.9f) return;
 
             _moneyPrefab = SelectRandomGameObjectFromList(_money);
             GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
 
-            _moneyLocation = new Vector3(tilePrefab.transform.position.x, 0f, 3f);
+            _moneyLocation = new Vector3(tilePrefab.transform.position.x, 0f, 0f);
             Quaternion newObjectRotation = _moneyPrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
-            GameObject money = (GameObject)Instantiate(_moneyPrefab, _currentTileLocation + _moneyLocation, newObjectRotation);
-
+            GameObject money = (GameObject)Instantiate(_moneyPrefab, _currentTileLocation + _moneyLocation + _newMoneyLocation, newObjectRotation);
+            _newMoneyLocation = new Vector3(0f, 0f, money.transform.position.z + 0.5f); 
+            //colliders = Physics.OverlapSphere(money.transform.position, radius);
+            //foreach (Collider col in colliders)
+            //{
+            //    if (col.transform.name == "Dog_Obstacle(Clone)")
+            //    {
+            //        Debug.Log("I am inside dog");
+            //    }
+            //}
         }
 
         //Select a random Gameobject
