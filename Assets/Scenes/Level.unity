@@ -1141,6 +1141,9 @@ MonoBehaviour:
   - {fileID: 8978377083723198151, guid: 0f162109b6e6b854496490398703e79a, type: 3}
   - {fileID: 8978377083723198151, guid: 08b44d12764acb944a5b6fd989c07415, type: 3}
   - {fileID: 8978377083723198151, guid: 30ee72f5f157e9e45abd9f3adcc7ed52, type: 3}
+  - {fileID: 658259505114167036, guid: 332c50fc13008ba4992552997b0ca318, type: 3}
+  colliders: []
+  radius: 0
 --- !u!4 &245704835
 Transform:
   m_ObjectHideFlags: 0
