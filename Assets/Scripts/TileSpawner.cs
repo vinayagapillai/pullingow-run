@@ -174,10 +174,21 @@ namespace TempleRun
             _obstaclePrefab = SelectRandomGameObjectFromList(_obstacles);
             GameObject tilePrefab = SelectRandomGameObjectFromList(_tiles);
 
-            _obstacleLocation = new Vector3(tilePrefab.transform.position.x, 0f,0f);
+            _obstacleLocation = new Vector3(tilePrefab.transform.position.x, 0f, 0f);
+            Quaternion newObjectRotation;
+
+            //Chcking and turning the direction of the dog 
+            if (_obstaclePrefab.transform.name == "Dog_Obstacle" && tilePrefab.transform.position.x == 4)
+            {
+                newObjectRotation = _obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up) * Quaternion.Euler(0, 180, 0);
+                
+            }
+            else
+            {
 
             //Rotate object 90 degrees to match the current tile direction
-            Quaternion newObjectRotation = _obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
+            newObjectRotation = _obstaclePrefab.gameObject.transform.rotation * Quaternion.LookRotation(_currentTileDirection, Vector3.up);
+            }
 
             GameObject obstacle = (GameObject)Instantiate(_obstaclePrefab, _currentTileLocation + _obstacleLocation, newObjectRotation);
             _currentObstacles.Add(obstacle);
